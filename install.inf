@@ -10,13 +10,13 @@ section=events
 events=on_lexer,on_open
 lexers=Bash script
 
-[item3]
+[item2]
 section=commands
 caption=ShellCheck\Config
 method=config
 menu=o
 
-[item4]
+[item3]
 section=commands
 caption=ShellCheck\Help
 method=help

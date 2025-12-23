@@ -1,3 +1,7 @@
+2025.12.23
++ add: console messages now use NOTE:/ERROR: prefixes for proper colorization in CudaText console
+* change: syntax limited to 'Bash script' (only existing Bash lexer in CudaText)
+* change: install.inf events combined (on_lexer,on_open) for optimized lazy loading
 
 2025.12.21
 initial version

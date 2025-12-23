@@ -16,7 +16,7 @@ class ShellCheck(Linter):
     automatic executable detection (PATH or bundled version).
     """
 
-    syntax = ('Bash script', 'Bash', 'Shell script')
+    syntax = 'Bash script'
     CONFIG_FILE = 'shellcheck_config.json'
 
     # Default values required by CudaLint framework
@@ -70,9 +70,9 @@ class ShellCheck(Linter):
                 print(f"ShellCheck: Using bundled version: {bundled}")
                 return bundled
 
-            print(f"ShellCheck: WARNING - Not found in PATH or: {bundled}")
+            print(f"NOTE: ShellCheck not found in PATH or: {bundled}")
         except (NameError, AttributeError) as e:
-            print(f"ShellCheck: WARNING - Cannot locate bundled version: {e}")
+            print(f"NOTE: Cannot locate bundled ShellCheck: {e}")
 
         return None
 
@@ -107,11 +107,11 @@ class ShellCheck(Linter):
                     lines = [ln for ln in f if (s := ln.strip()) and not s.startswith(('//', '#'))]
                     return ''.join(lines).strip()
             except Exception as e:
-                print(f"ShellCheck: ERROR - Failed to read config with fallback encoding: {e}")
+                print(f"ERROR: Failed to read ShellCheck config with fallback encoding: {e}")
                 return None
 
         except Exception as e:
-            print(f"ShellCheck: ERROR - Failed to read config: {e}")
+            print(f"ERROR: Failed to read ShellCheck config: {e}")
             return None
 
     def _parse_and_validate_codes(self, content):
@@ -121,14 +121,14 @@ class ShellCheck(Linter):
 
             # Guard clause: config must be a dict (JSON object)
             if not isinstance(config, dict):
-                print("ShellCheck: ERROR - Config must be JSON object, not array/string")
+                print("ERROR: ShellCheck config must be JSON object, not array/string")
                 return []
 
             codes = config.get('ignore_codes', [])
 
             # Guard clause: ignore_codes must be a list (JSON array)
             if not isinstance(codes, list):
-                print("ShellCheck: ERROR - 'ignore_codes' must be array")
+                print("ERROR: ShellCheck 'ignore_codes' must be array")
                 return []
 
             # Validate format: must be string starting with 'SC' followed by digits
@@ -137,7 +137,7 @@ class ShellCheck(Linter):
             # Warn about invalid codes
             if len(valid) != len(codes):
                 invalid = [c for c in codes if c not in valid]
-                print(f"ShellCheck: Warning - Invalid codes ignored: {invalid}")
+                print(f"NOTE: ShellCheck - Invalid codes ignored: {invalid}")
 
             # Log loaded codes
             if valid:
@@ -146,7 +146,7 @@ class ShellCheck(Linter):
             return valid
 
         except json.JSONDecodeError as e:
-            print(f"ShellCheck: ERROR - Invalid JSON in config: {e}")
+            print(f"ERROR: Invalid JSON in ShellCheck config: {e}")
             return []
 
     def _build_cmd(self):
@@ -203,7 +203,7 @@ class Command:
                 print(f"ShellCheck: Created default config: {path}")
             except Exception as e:
                 msg_box(f"Failed to create config:\n{e}", MB_OK | MB_ICONERROR)
-                print(f"ShellCheck: ERROR - Config creation failed: {e}")
+                print(f"ERROR: Failed to create ShellCheck config: {e}")
                 return
 
         file_open(path)
