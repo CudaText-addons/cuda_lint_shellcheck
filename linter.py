@@ -97,14 +97,14 @@ class ShellCheck(Linter):
         try:
             # Try UTF-8 first (standard)
             with open(path, 'r', encoding='utf-8') as f:
-                lines = [ln for ln in f if (s := ln.strip()) and not s.startswith(('//', '#'))]
+                lines = [ln for ln in f if (stripped := ln.strip()) and not stripped.startswith(('//', '#'))]
                 return ''.join(lines).strip()
 
         except UnicodeDecodeError:
             # Fallback to system default encoding (legacy Windows, etc)
             try:
                 with open(path, 'r') as f:
-                    lines = [ln for ln in f if (s := ln.strip()) and not s.startswith(('//', '#'))]
+                    lines = [ln for ln in f if (stripped := ln.strip()) and not stripped.startswith(('//', '#'))]
                     return ''.join(lines).strip()
             except Exception as e:
                 print(f"ERROR: Failed to read ShellCheck config with fallback encoding: {e}")
@@ -185,8 +185,10 @@ class ShellCheck(Linter):
                 timeout=5
             )
             if result.returncode == 0:
-                # Output format: "version: 0.11.0" on 2nd line
-                return result.stdout.strip().split()[-1]
+                # Output format: "version: 0.11.0"
+                for line in result.stdout.splitlines():
+                    if line.lower().startswith("version:"):
+                        return line.split(":", 1)[1].strip()
         except Exception:
             pass
 
@@ -248,7 +250,8 @@ class Command:
             "- Multi-platform support\n"
             "- Diagnostic logging\n\n"
             "CONFIGURATION:\n"
-            "Access via: Options > Settings-plugins > ShellCheck > Config\n\n"
+            "Access via: Options > Settings-plugins > ShellCheck > Config\n"
+            "Supports // and # comments in JSON file\n\n"
             "COMMON IGNORE CODES:\n"
             "- SC2034: variable appears unused\n"
             "- SC2154: variable referenced but not assigned\n"
