@@ -22,6 +22,6 @@ To ignore specific warnings, create settings/shellcheck_config.json with:
   ]
 }
 
-Author: Bruno Eduardo
+Author: Bruno Eduardo, https://github.com/Hanatarou
 
 License: MIT

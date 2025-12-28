@@ -68,5 +68,5 @@ Create `settings/shellcheck_config.json` to customize ignore rules:
 ## 📚 Additional Info
 - **ShellCheck project**: https://github.com/koalaman/shellcheck
 - **ShellCheck wiki**: https://github.com/koalaman/shellcheck/wiki
-- **Author**: Bruno Eduardo
+- **Author**: Bruno Eduardo, https://github.com/Hanatarou
 - **License**: MIT

@@ -6,7 +6,7 @@ import shutil
 import json
 from cudatext import *
 
-# Plugin loaded (lazy loading via on_lexer/on_open)
+# Plugin loaded (lazy loading via CudaLint framework)
 print("ShellCheck: Plugin initialized")
 
 class ShellCheck(Linter):
@@ -204,14 +204,6 @@ class Command:
             "SC2086"   # quote to prevent word splitting
         ]
     }
-
-    def on_lexer(self, ed_self):
-        """Trigger plugin loading when Bash lexer is activated."""
-        pass
-
-    def on_open(self, ed_self):
-        """Trigger plugin loading when Bash file is opened."""
-        pass
 
     def config(self):
         """Open/create configuration file."""
