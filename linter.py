@@ -256,5 +256,5 @@ class Command:
             f"{version_info}"
             "DOCUMENTATION:\n"
             "https://github.com/koalaman/shellcheck/wiki",
-            MB_OK
+            MB_OK | MB_ICONINFO
         )
